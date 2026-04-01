@@ -199,8 +199,21 @@ function getConnectedRegionTransition(
 		const currentScale = ZOOM_DEPTH_SCALES[currentRegion.depth];
 		const nextScale = ZOOM_DEPTH_SCALES[nextRegion.depth];
 		const transitionScale = lerp(currentScale, nextScale, transitionProgress);
-		const currentFocus = getResolvedFocus(currentRegion, currentScale, timeMs, cursorTelemetry);
-		const nextFocus = getResolvedFocus(nextRegion, nextScale, timeMs, cursorTelemetry);
+		// Both regions share the same timeMs, so interpolate cursor once and reuse.
+		const sharedCursorFocus =
+			cursorTelemetry && cursorTelemetry.length > 0
+				? interpolateCursorAt(cursorTelemetry, timeMs)
+				: null;
+		const currentFocus = clampFocusToScale(
+			currentRegion.focusMode === "auto" && sharedCursorFocus
+				? sharedCursorFocus
+				: currentRegion.focus,
+			currentScale,
+		);
+		const nextFocus = clampFocusToScale(
+			nextRegion.focusMode === "auto" && sharedCursorFocus ? sharedCursorFocus : nextRegion.focus,
+			nextScale,
+		);
 		const transitionFocus = getLinearFocus(currentFocus, nextFocus, transitionProgress);
 
 		return {

@@ -52,6 +52,7 @@ import type {
 	PlaybackSpeed,
 	WebcamLayoutPreset,
 	ZoomDepth,
+	ZoomFocusMode,
 } from "./types";
 import { SPEED_OPTIONS } from "./types";
 
@@ -92,8 +93,8 @@ interface SettingsPanelProps {
 	onWallpaperChange: (path: string) => void;
 	selectedZoomDepth?: ZoomDepth | null;
 	onZoomDepthChange?: (depth: ZoomDepth) => void;
-	selectedZoomFocusMode?: import("./types").ZoomFocusMode | null;
-	onZoomFocusModeChange?: (mode: import("./types").ZoomFocusMode) => void;
+	selectedZoomFocusMode?: ZoomFocusMode | null;
+	onZoomFocusModeChange?: (mode: ZoomFocusMode) => void;
 	hasCursorTelemetry?: boolean;
 	selectedZoomId?: string | null;
 	onZoomDelete?: (id: string) => void;
